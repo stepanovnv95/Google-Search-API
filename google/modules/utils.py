@@ -33,13 +33,16 @@ def normalize_query(query):
     return query.strip().replace(":", "%3A").replace("+", "%2B").replace("&", "%26").replace(" ", "+")
 
 
-def _get_search_url(query, page=0, per_page=10, lang='en'):
+def _get_search_url(query, page=0, per_page=10, lang='en', time_interval='any'):
     # note: num per page might not be supported by google anymore (because of
     # google instant)
 
     params = {'nl': lang, 'q': query.encode(
         'utf8'), 'start': page * per_page, 'num': per_page}
+    time_values = ['y', 'm', 'w', 'd', 'h']
     params = urlencode(params)
+    if time_interval in time_values: # else ':' will replace by %3A
+        params += '&tbs=qdr:' + time_interval
     url = u"http://www.google.com/search?" + params
     # return u"http://www.google.com/search?hl=%s&q=%s&start=%i&num=%i" %
     # (lang, normalize_query(query), page * per_page, per_page)

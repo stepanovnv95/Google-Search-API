@@ -50,19 +50,20 @@ class GoogleResult(object):
 
 
 # PUBLIC
-def search(query, pages=1, lang='en', void=True):
+def search(query, pages=1, lang='en', void=True, time_interval='any'):
     """Returns a list of GoogleResult.
 
     Args:
         query: String to search in google.
         pages: Number of pages where results must be taken.
+        time_interval:  Time search interval (y, m, w, d, or h).
 
     Returns:
         A GoogleResult object."""
 
     results = []
     for i in range(pages):
-        url = _get_search_url(query, i, lang=lang)
+        url = _get_search_url(query, i, lang=lang, time_interval=time_interval)
         html = get_html(url)
 
         if html:
