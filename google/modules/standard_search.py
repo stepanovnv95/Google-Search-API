@@ -11,6 +11,7 @@ import urllib.parse
 from urllib.parse import unquote
 from unidecode import unidecode
 from re import match
+import time
 
 
 class GoogleResult(object):
@@ -50,13 +51,14 @@ class GoogleResult(object):
 
 
 # PUBLIC
-def search(query, pages=1, lang='en', void=True, time_interval='any'):
+def search(query, pages=1, lang='en', void=True, time_interval='any', timeout=0):
     """Returns a list of GoogleResult.
 
     Args:
         query: String to search in google.
         pages: Number of pages where results must be taken.
         time_interval:  Time search interval (y, m, w, d, or h).
+        timeout: Timeout between requests
 
     Returns:
         A GoogleResult object."""
@@ -88,6 +90,7 @@ def search(query, pages=1, lang='en', void=True, time_interval='any'):
                         continue
                 results.append(res)
                 j += 1
+        time.sleep(timeout)
 
     return results
 
